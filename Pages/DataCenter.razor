@@ -81,19 +81,6 @@
         </div>
 
     </div>
-    <div style="padding-bottom: 5%">
-        <h3 style="padding-left: 10%">Rainfall</h3>
-        <RadzenChart ColorScheme="ColorScheme.Divergent">
-            <RadzenLineSeries Smooth="@smooth" Data="@database.rainfallDataSet" CategoryProperty="Date" Title="Rainfall" ValueProperty="Rainfall">
-                <RadzenMarkers MarkerType="MarkerType.Circle" />
-            </RadzenLineSeries>
-            <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
-            <RadzenValueAxis>
-                <RadzenGridLines Visible="true" />
-                <RadzenAxisTitle Text="Poziom opadów deszczu [mm]" />
-            </RadzenValueAxis>
-        </RadzenChart>
-    </div>
 </div>
 
 

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using WebServer.Interfaces;
 using System.Data.SqlClient;
 using WebServer.Data.Dto;
-using System.Threading.Tasks;
-using WebServer.Pages;
 
 namespace WebServer.Data
 {
@@ -17,7 +12,6 @@ namespace WebServer.Data
         public AirHumidityDto[] airHumidityDataSet;
         public SoilTemperatureDto[] soilTemperatureDataSet;
         public SoilHumidityDto[] soilHumidityDataSet;
-        public RainfallDto[] rainfallDataSet;
 
         private const string connectionString = @"Data Source=DESKTOP-5M6N983\SQLEXPRESS;Initial Catalog=test_database;Integrated Security=True";
 
@@ -27,7 +21,6 @@ namespace WebServer.Data
             airHumidityDataSet = new AirHumidityDto[MAX];
             soilTemperatureDataSet = new SoilTemperatureDto[MAX];
             soilHumidityDataSet = new SoilHumidityDto[MAX];
-            rainfallDataSet = new RainfallDto[MAX];
             SetInstance();
             getAllData();
         }
@@ -71,9 +64,6 @@ namespace WebServer.Data
                         soilHumidityDataSet[i].SoilHumidity = Double.Parse(String.Format("{0}", reader["soilHumidity"]));
                         soilHumidityDataSet[i].Date = timestamp;
 
-                        rainfallDataSet[i].Rainfall = Double.Parse(String.Format("{0}", reader["rainfall"]));
-                        rainfallDataSet[i].Date = timestamp;
-
                         i++;
                     }
                 }
@@ -88,7 +78,6 @@ namespace WebServer.Data
                 airHumidityDataSet[i] = new AirHumidityDto();
                 soilTemperatureDataSet[i] = new SoilTemperatureDto();
                 soilHumidityDataSet[i] = new SoilHumidityDto();
-                rainfallDataSet[i] = new RainfallDto();
             }
         }
     }
