@@ -6,5 +6,10 @@ namespace WebServer.Data.Dto
     {
         public DateTime Date { get; set; }
         public double SoilTemperature { get; set; }
+        public SoilTemperatureDto(double soilTemperature, DateTime date)
+        {
+            this.SoilTemperature = soilTemperature;
+            this.Date = date;
+        }
     }
 }
