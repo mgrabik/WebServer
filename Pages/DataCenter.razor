@@ -55,7 +55,7 @@
     <div class="row">
         <div class="col" style="visibility: @isHiddenTemp">
             <h3 style="padding-left: 10%">Soil temperature</h3>
-            <RadzenChart>
+            <RadzenChart ColorScheme="ColorScheme.Divergent">
                 <RadzenLineSeries Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
                     <RadzenMarkers MarkerType="MarkerType.Circle" />
                 </RadzenLineSeries>
