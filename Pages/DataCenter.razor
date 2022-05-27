@@ -1,0 +1,147 @@
+﻿@page "/datacenter"
+@using WebServer.Data
+
+<h3>DataCenter</h3>
+
+<div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: 15px;">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h3 style="padding-left: 15%">@tempLabel</h3>
+                </div>
+                <div class="col">
+                    <RadzenButton Click="@setMergeTemp" Text="Merge" ButtonStyle="ButtonStyle.Info" Style="float: right;"></RadzenButton>
+                </div>
+            </div>
+            <RadzenChart>
+                <RadzenLineSeries Smooth="@smooth" Data="@database.airTemperatureDataSet" CategoryProperty="Date" Title="Air" ValueProperty="AirTemperature">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Visible="@mergeTemp" Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Temperatura [°C]" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h3 style="padding-left: 15%">@humLabel</h3>
+                </div>
+                <div class="col">
+                    <RadzenButton Click="@setMergeHum" Text="Merge" ButtonStyle="ButtonStyle.Info" Style="float: right;"></RadzenButton>
+                </div>
+            </div>
+            <RadzenChart>
+                <RadzenLineSeries Smooth="@smooth" Data="@database.airHumidityDataSet" CategoryProperty="Date" Title="Air" ValueProperty="AirHumidity">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Visible="@mergeHum" Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Procent wilgotności [%]" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="visibility: @isHiddenTemp">
+            <h3 style="padding-left: 10%">Soil temperature</h3>
+            <RadzenChart>
+                <RadzenLineSeries Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Temperatura [°C]" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+        <div class="col" style="visibility: @isHiddenHum">
+            <h3 style="padding-left: 10%">Soil humidity</h3>
+            <RadzenChart ColorScheme="ColorScheme.Divergent">
+                <RadzenLineSeries Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
+                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                </RadzenLineSeries>
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenValueAxis>
+                    <RadzenGridLines Visible="true" />
+                    <RadzenAxisTitle Text="Procent wilgotności [%]" />
+                </RadzenValueAxis>
+            </RadzenChart>
+        </div>
+
+    </div>
+    <div style="padding-bottom: 5%">
+        <h3 style="padding-left: 10%">Rainfall</h3>
+        <RadzenChart ColorScheme="ColorScheme.Divergent">
+            <RadzenLineSeries Smooth="@smooth" Data="@database.rainfallDataSet" CategoryProperty="Date" Title="Rainfall" ValueProperty="Rainfall">
+                <RadzenMarkers MarkerType="MarkerType.Circle" />
+            </RadzenLineSeries>
+            <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+            <RadzenValueAxis>
+                <RadzenGridLines Visible="true" />
+                <RadzenAxisTitle Text="Poziom opadów deszczu [mm]" />
+            </RadzenValueAxis>
+        </RadzenChart>
+    </div>
+</div>
+
+
+
+@code {
+    bool smooth = true;
+    bool mergeTemp = false;
+    bool mergeHum = false;
+    string isHiddenTemp = "visible";
+    string isHiddenHum = "visible";
+    string tempLabel = "Air temperature";
+    string humLabel = "Air humidity";
+
+    static DateTime date1 = new DateTime(2022, 1, 1);
+    static DateTime date2 = new DateTime(2022, 1, 2);
+    TimeSpan interval = date2 - date1;
+
+    Database database = Database.Instance;
+
+    private void setMergeTemp()
+    {
+        if (mergeTemp)
+        {
+            mergeTemp = false;
+            isHiddenTemp = "visible";
+            tempLabel = "Air temperature";
+        }
+        else
+        {
+            mergeTemp = true;
+            isHiddenTemp = "hidden";
+            tempLabel = "Air and soil temperature";
+        }
+    }
+
+    private void setMergeHum()
+    {
+        if (mergeHum)
+        {
+            mergeHum = false;
+            isHiddenHum = "visible";
+            humLabel = "Air humidity";
+        }
+        else
+        {
+            mergeHum = true;
+            isHiddenHum = "hidden";
+            humLabel = "Air and soil humidity";
+        }
+    }
+}

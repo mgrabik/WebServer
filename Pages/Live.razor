@@ -1,0 +1,107 @@
+﻿@page "/live"
+@using WebServer.Data
+@using System.Threading
+@namespace WebServer.Pages
+
+<h3>Live (@date.ToString("HH:mm:ss"))</h3>
+
+<RadzenButton Click=@StartRefreshing Icon="@buttonIcon" Text="@buttonText" ButtonStyle="@buttonStyle" />
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <RadzenArcGauge Style="width: 100%; height: 250px;">
+                <RadzenArcGaugeScale Step="4" Min="0" Max="40" MinorStep="2" Radius="1.5" TickPosition="GaugeTickPosition.Outside" Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@airTemperature ShowValue=true>
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value °C
+                            </h4>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+        </div>
+        <div class="col">
+            <RadzenArcGauge Style="width: 100%; height: 250px;">
+                <RadzenArcGaugeScale Step="10" Min="0" Max="100" MinorStep="2" Radius="1.5" TickPosition="GaugeTickPosition.Outside" Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@airHumidity ShowValue=true>
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value %
+                            </h4>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <RadzenArcGauge Style="width: 100%; height: 250px;">
+                <RadzenArcGaugeScale Step="4" Min="0" Max="40" MinorStep="2" Radius="1.5" TickPosition="GaugeTickPosition.Outside" Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@soilTemperature ShowValue=true>
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value °C
+                            </h4>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+        </div>
+        <div class="col">
+            <RadzenArcGauge Style="width: 100%; height: 250px;">
+                <RadzenArcGaugeScale Step="10" Min="0" Max="100" MinorStep="2" Radius="1.5" TickPosition="GaugeTickPosition.Outside" Y="0.9" Margin="0">
+                    <RadzenArcGaugeScaleValue Value=@soilHumidity ShowValue=true>
+                        <Template Context="pointer">
+                            <h4>
+                                @pointer.Value %
+                            </h4>
+                        </Template>
+                    </RadzenArcGaugeScaleValue>
+                </RadzenArcGaugeScale>
+            </RadzenArcGauge>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private double airTemperature = Database.Instance.airTemperatureDataSet[0].AirTemperature;
+    private double airHumidity = Database.Instance.airHumidityDataSet[0].AirHumidity;
+    private double soilTemperature = Database.Instance.soilTemperatureDataSet[0].SoilTemperature;
+    private double soilHumidity = Database.Instance.soilHumidityDataSet[0].SoilHumidity;
+
+    DateTime date = getTimeNow();
+    ButtonStyle buttonStyle = ButtonStyle.Warning;
+    string buttonText = "Start fetching data";
+    string buttonIcon = "report";
+
+    public void StartRefreshing()
+    {
+        buttonStyle = ButtonStyle.Success;
+        buttonText = "Fetching";
+        buttonIcon = "check_circle";
+
+        var timer = new Timer(new TimerCallback(_ =>
+        {
+            airTemperature = Database.Instance.airTemperatureDataSet[0].AirTemperature;
+            airHumidity = Database.Instance.airHumidityDataSet[0].AirHumidity;
+            soilTemperature = Database.Instance.soilTemperatureDataSet[0].SoilTemperature;
+            soilHumidity = Database.Instance.soilHumidityDataSet[0].SoilHumidity;
+
+            date = DateTime.Now;
+
+            InvokeAsync(() =>
+            {
+
+                StateHasChanged();
+            });
+        }), null, 1000, 1000);
+    }
+    private static DateTime getTimeNow()
+    {
+        return DateTime.Now;
+    }
+}
