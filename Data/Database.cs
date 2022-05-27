@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using WebServer.Data.Dto;
 
@@ -6,22 +7,15 @@ namespace WebServer.Data
 {
     public class Database
     {
-        private int MAX = 3;
-
-        public AirTemperatureDto[] airTemperatureDataSet;
-        public AirHumidityDto[] airHumidityDataSet;
-        public SoilTemperatureDto[] soilTemperatureDataSet;
-        public SoilHumidityDto[] soilHumidityDataSet;
+        public List<AirTemperatureDto> airTemperatureDataSet = new List<AirTemperatureDto>();
+        public List<AirHumidityDto> airHumidityDataSet = new List<AirHumidityDto>();
+        public List<SoilTemperatureDto> soilTemperatureDataSet = new List<SoilTemperatureDto>();
+        public List<SoilHumidityDto> soilHumidityDataSet = new List<SoilHumidityDto>();
 
         private const string connectionString = @"Data Source=DESKTOP-5M6N983\SQLEXPRESS;Initial Catalog=test_database;Integrated Security=True";
 
         private Database()
         {
-            airTemperatureDataSet = new AirTemperatureDto[MAX];
-            airHumidityDataSet = new AirHumidityDto[MAX];
-            soilTemperatureDataSet = new SoilTemperatureDto[MAX];
-            soilHumidityDataSet = new SoilHumidityDto[MAX];
-            SetInstance();
             getAllData();
         }
 
@@ -42,7 +36,6 @@ namespace WebServer.Data
 
         public void getAllData()
         {
-            int i = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -52,32 +45,20 @@ namespace WebServer.Data
                     while (reader.Read())
                     {
                         DateTime timestamp = (DateTime)reader["Timestamp"];
-                        airTemperatureDataSet[i].AirTemperature = Double.Parse(String.Format("{0}", reader["airTemperature"]));
-                        airTemperatureDataSet[i].Date = timestamp;
 
-                        airHumidityDataSet[i].AirHumidity = Double.Parse(String.Format("{0}", reader["airHumidity"]));
-                        airHumidityDataSet[i].Date = timestamp;
+                        AirTemperatureDto airTemperatureDto = new AirTemperatureDto(Double.Parse(String.Format("{0}", reader["airTemperature"])), timestamp);
+                        airTemperatureDataSet.Add(airTemperatureDto);
 
-                        soilTemperatureDataSet[i].SoilTemperature = Double.Parse(String.Format("{0}", reader["soilTemperature"]));
-                        soilTemperatureDataSet[i].Date = timestamp;
+                        AirHumidityDto airHumidityDto = new AirHumidityDto(Double.Parse(String.Format("{0}", reader["airHumidity"])), timestamp);
+                        airHumidityDataSet.Add(airHumidityDto);
 
-                        soilHumidityDataSet[i].SoilHumidity = Double.Parse(String.Format("{0}", reader["soilHumidity"]));
-                        soilHumidityDataSet[i].Date = timestamp;
+                        SoilTemperatureDto soilTemperatureDto = new SoilTemperatureDto(Double.Parse(String.Format("{0}", reader["soilTemperature"])), timestamp);
+                        soilTemperatureDataSet.Add(soilTemperatureDto);
 
-                        i++;
+                        SoilHumidityDto soilHumidityDto = new SoilHumidityDto(Double.Parse(String.Format("{0}", reader["soilHumidity"])), timestamp);
+                        soilHumidityDataSet.Add(soilHumidityDto);
                     }
                 }
-            }
-        }
-
-        private void SetInstance()
-        {
-            for(int i = 0; i < MAX; i++)
-            {
-                airTemperatureDataSet[i] = new AirTemperatureDto();
-                airHumidityDataSet[i] = new AirHumidityDto();
-                soilTemperatureDataSet[i] = new SoilTemperatureDto();
-                soilHumidityDataSet[i] = new SoilHumidityDto();
             }
         }
     }
