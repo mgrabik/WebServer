@@ -5,6 +5,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="FireSharp" Version="2.0.4" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
 		<PackageReference Include="Radzen.Blazor" Version="3.18.11" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.3" />

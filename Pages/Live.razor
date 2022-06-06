@@ -4,10 +4,17 @@
 @namespace WebServer.Pages
 
 <h3>Live (@date.ToString("HH:mm:ss"))</h3>
-
 <RadzenButton Click=@StartRefreshing Icon="@buttonIcon" Text="@buttonText" ButtonStyle="@buttonStyle" />
 
 <div class="container">
+    <div class="row">
+        <div class="col" style="text-align:center">
+            <h3>Air temperature</h3>
+        </div>
+        <div class="col" style="text-align:center">
+            <h3>Air humidity</h3>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <RadzenArcGauge Style="width: 100%; height: 250px;">
@@ -34,6 +41,14 @@
                     </RadzenArcGaugeScaleValue>
                 </RadzenArcGaugeScale>
             </RadzenArcGauge>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="text-align:center">
+            <h3>Soil temperature</h3>
+        </div>
+        <div class="col" style="text-align:center">
+            <h3>Soil humidity</h3>
         </div>
     </div>
     <div class="row">
@@ -68,15 +83,20 @@
 
 
 @code {
-    private double airTemperature = Database.Instance.airTemperatureDataSet[0].AirTemperature;
-    private double airHumidity = Database.Instance.airHumidityDataSet[0].AirHumidity;
-    private double soilTemperature = Database.Instance.soilTemperatureDataSet[0].SoilTemperature;
-    private double soilHumidity = Database.Instance.soilHumidityDataSet[0].SoilHumidity;
+    private double airTemperature = Database.Instance.LiveAirTemperature;
+    private double airHumidity = Database.Instance.LiveAirHumidity;
+    private double soilTemperature = Database.Instance.LiveSoilTemperature;
+    private double soilHumidity = Database.Instance.LiveSoilHumidity;
 
     DateTime date = getTimeNow();
     ButtonStyle buttonStyle = ButtonStyle.Warning;
     string buttonText = "Start fetching data";
     string buttonIcon = "report";
+
+    public Live()
+    {
+        StartRefreshing();
+    }
 
     public void StartRefreshing()
     {
@@ -86,10 +106,12 @@
 
         var timer = new Timer(new TimerCallback(_ =>
         {
-            airTemperature = Database.Instance.airTemperatureDataSet[0].AirTemperature;
-            airHumidity = Database.Instance.airHumidityDataSet[0].AirHumidity;
-            soilTemperature = Database.Instance.soilTemperatureDataSet[0].SoilTemperature;
-            soilHumidity = Database.Instance.soilHumidityDataSet[0].SoilHumidity;
+            Database.Instance.GetLiveData();
+
+            airTemperature = Database.Instance.LiveAirTemperature;
+            airHumidity = Database.Instance.LiveAirHumidity;
+            soilTemperature = Database.Instance.LiveSoilTemperature;
+            soilHumidity = Database.Instance.LiveSoilHumidity;
 
             date = DateTime.Now;
 
@@ -100,6 +122,7 @@
             });
         }), null, 1000, 1000);
     }
+
     private static DateTime getTimeNow()
     {
         return DateTime.Now;

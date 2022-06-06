@@ -1,7 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Anton;
 }
 
 a, .btn-link {
@@ -19,6 +19,10 @@ a, .btn-link {
 .content {
     padding-top: 1.1rem;
 }
+.col {
+    border-style: inherit;
+    border-color: #92a8d1;
+}
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
@@ -30,6 +34,14 @@ a, .btn-link {
 
 .validation-message {
     color: red;
+}
+
+.my-header {
+    font-family: Anton;
+    font-size: 40px;
+    color: #666699;
+    line-height: 1.2;
+    text-align: left;
 }
 
 #blazor-error-ui {
