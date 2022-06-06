@@ -3,7 +3,7 @@
 
 <h3>DataCenter</h3>
 
-<div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: 15px;">
+<div style="width: 100%; padding-right: 15px; padding-left: 15px; margin-right: auto; margin-left: 15px; font-family:Arial">
     <div class="row">
         <div class="col">
             <div class="row">
@@ -16,10 +16,10 @@
             </div>
             <RadzenChart>
                 <RadzenLineSeries Smooth="@smooth" Data="@database.airTemperatureDataSet" CategoryProperty="Date" Title="Air" ValueProperty="AirTemperature">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers />
                 </RadzenLineSeries>
                 <RadzenLineSeries Visible="@mergeTemp" Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers />
                 </RadzenLineSeries>
                 <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
                 <RadzenValueAxis>
@@ -39,13 +39,13 @@
             </div>
             <RadzenChart>
                 <RadzenLineSeries Smooth="@smooth" Data="@database.airHumidityDataSet" CategoryProperty="Date" Title="Air" ValueProperty="AirHumidity">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers />
                 </RadzenLineSeries>
                 <RadzenLineSeries Visible="@mergeHum" Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers />
                 </RadzenLineSeries>
                 <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
-                <RadzenValueAxis>
+                <RadzenValueAxis Max="99" Min="0">
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Procent wilgotności [%]" />
                 </RadzenValueAxis>
@@ -57,7 +57,7 @@
             <h3 style="padding-left: 10%">Soil temperature</h3>
             <RadzenChart ColorScheme="ColorScheme.Divergent">
                 <RadzenLineSeries Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers/>
                 </RadzenLineSeries>
                 <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
                 <RadzenValueAxis>
@@ -70,10 +70,10 @@
             <h3 style="padding-left: 10%">Soil humidity</h3>
             <RadzenChart ColorScheme="ColorScheme.Divergent">
                 <RadzenLineSeries Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
-                    <RadzenMarkers MarkerType="MarkerType.Circle" />
+                    <RadzenMarkers />
                 </RadzenLineSeries>
                 <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
-                <RadzenValueAxis>
+                <RadzenValueAxis Max="99" Min="0">
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Procent wilgotności [%]" />
                 </RadzenValueAxis>
@@ -94,8 +94,8 @@
     string tempLabel = "Air temperature";
     string humLabel = "Air humidity";
 
-    static DateTime date1 = new DateTime(2022, 1, 1);
-    static DateTime date2 = new DateTime(2022, 1, 2);
+    static DateTime date1 = new DateTime(2022, 1, 1, 16, 0, 0);
+    static DateTime date2 = new DateTime(2022, 1, 1, 16, 10, 0);
     TimeSpan interval = date2 - date1;
 
     Database database = Database.Instance;

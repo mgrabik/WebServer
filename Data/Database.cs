@@ -28,8 +28,6 @@ namespace WebServer.Data
             setFirebaseClient();
             SelectFireBaseData();
             GetLiveData();
-            //Thread thread = new Thread(SecondFoo);
-            //thread.Start();
         }
 
         // Singleton implementation
@@ -72,7 +70,6 @@ namespace WebServer.Data
             var allDictionaries = json.Values;
             foreach (var element in allDictionaries)
             {
-                //Validation(element["timestamp"])
                 DateTime timestamp = DateTime.ParseExact(Validation(element["timestamp"]), "yyyy-MM-dd HH:mm:ss ", null);
                 
                 airTemperatureDataSet.Add(new AirTemperatureDto(Convert.ToDouble(Regex.Replace(element["temperatura"], @"\.", ",")), timestamp));
@@ -134,7 +131,7 @@ namespace WebServer.Data
             }
             if (minute.Length == 1)
             {
-                string newMinute = ":0" + day.Value + ":";
+                string newMinute = "#0" + day.Value + ":";
                 result = Regex.Replace(result, "#(.*?):", newMinute);
             }
             if (second.Length == 1)
