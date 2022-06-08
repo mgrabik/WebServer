@@ -28,6 +28,7 @@ namespace WebServer.Data
             setFirebaseClient();
             SelectFireBaseData();
             GetLiveData();
+            //FakeData();
         }
 
         // Singleton implementation
@@ -96,7 +97,6 @@ namespace WebServer.Data
                 LiveAirHumidity = Convert.ToDouble(Regex.Replace(element["wilgotnosc"], @"\.", ","));
                 LiveSoilTemperature = Convert.ToDouble(Regex.Replace(element["temperatura_gleby"], @"\.", ","));
                 LiveSoilHumidity = Convert.ToDouble(Regex.Replace(element["wilgotnosc_gleby"], @"\.", ","));
-                break;
             }
         }
 
@@ -126,17 +126,17 @@ namespace WebServer.Data
             }
             if (hour.Length == 1)
             {
-                string newHour = " 0" + day.Value + ":";
-                result = Regex.Replace(result, "(.*?)#", newHour);
+                string newHour = " 0" + hour.Value + "#";
+                result = Regex.Replace(result, " (.*?)#", newHour);
             }
             if (minute.Length == 1)
             {
-                string newMinute = "#0" + day.Value + ":";
+                string newMinute = "#0" + minute.Value + ":";
                 result = Regex.Replace(result, "#(.*?):", newMinute);
             }
             if (second.Length == 1)
             {
-                string newSecond = ":0" + day.Value + " ";
+                string newSecond = ":0" + second.Value + " ";
                 result = Regex.Replace(result, ":(.*?) ", newSecond);
             }
             regex = new Regex(Regex.Escape("%"));
@@ -155,10 +155,19 @@ namespace WebServer.Data
             soilHumidityDataSet.Clear();
         }
 
-        public int mylabel = 1;
-        public void SecondFoo()
+        public void FakeData()
         {
-            mylabel++;
+            Random random = new Random();
+
+            for (int i = 0; i < 30; i++)
+            {
+                DateTime timestamp = new DateTime(2022, 6, i + 1, 12, 0, 0);
+
+                airTemperatureDataSet.Add(new AirTemperatureDto((double)(random.Next(120, 230) / 10), timestamp));
+                airHumidityDataSet.Add(new AirHumidityDto((double)(random.Next(720, 870) / 10), timestamp));
+                soilTemperatureDataSet.Add(new SoilTemperatureDto((double)(random.Next(60, 130) / 10), timestamp));
+                soilHumidityDataSet.Add(new SoilHumidityDto((double)(random.Next(320, 500) / 10), timestamp));
+            }
         }
     }
 }

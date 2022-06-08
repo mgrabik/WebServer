@@ -21,7 +21,7 @@
                 <RadzenLineSeries Visible="@mergeTemp" Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
                     <RadzenMarkers />
                 </RadzenLineSeries>
-                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM}" />
                 <RadzenValueAxis>
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Temperatura [°C]" />
@@ -44,7 +44,7 @@
                 <RadzenLineSeries Visible="@mergeHum" Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
                     <RadzenMarkers />
                 </RadzenLineSeries>
-                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM}" />
                 <RadzenValueAxis Max="99" Min="0">
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Procent wilgotności [%]" />
@@ -59,7 +59,7 @@
                 <RadzenLineSeries Smooth="@smooth" Data="@database.soilTemperatureDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilTemperature">
                     <RadzenMarkers/>
                 </RadzenLineSeries>
-                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM}" />
                 <RadzenValueAxis>
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Temperatura [°C]" />
@@ -72,7 +72,7 @@
                 <RadzenLineSeries Smooth="@smooth" Data="@database.soilHumidityDataSet" CategoryProperty="Date" Title="Soil" ValueProperty="SoilHumidity">
                     <RadzenMarkers />
                 </RadzenLineSeries>
-                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM, HH:mm}" />
+                <RadzenCategoryAxis Padding="20" Step="@interval" FormatString="{0:dd MMMM}" />
                 <RadzenValueAxis Max="99" Min="0">
                     <RadzenGridLines Visible="true" />
                     <RadzenAxisTitle Text="Procent wilgotności [%]" />
@@ -94,8 +94,8 @@
     string tempLabel = "Air temperature";
     string humLabel = "Air humidity";
 
-    static DateTime date1 = new DateTime(2022, 1, 1, 16, 0, 0);
-    static DateTime date2 = new DateTime(2022, 1, 1, 17, 0, 0);
+    static DateTime date1 = new DateTime(2022, 1, 1, 1, 0, 0);
+    static DateTime date2 = new DateTime(2022, 1, 6, 1, 0, 0);
     TimeSpan interval = date2 - date1;
 
     Database database = Database.Instance;

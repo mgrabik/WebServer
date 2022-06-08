@@ -43,7 +43,7 @@
             </RadzenArcGauge>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-top: 65px;">
         <div class="col" style="text-align:center">
             <h3>Soil temperature</h3>
         </div>
@@ -51,7 +51,7 @@
             <h3>Soil humidity</h3>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top: 0!important">
         <div class="col">
             <RadzenArcGauge Style="width: 100%; height: 250px;">
                 <RadzenArcGaugeScale Step="4" Min="0" Max="40" MinorStep="2" Radius="1.5" TickPosition="GaugeTickPosition.Outside" Y="0.9" Margin="0">
@@ -112,6 +112,9 @@
             airHumidity = Database.Instance.LiveAirHumidity;
             soilTemperature = Database.Instance.LiveSoilTemperature;
             soilHumidity = Database.Instance.LiveSoilHumidity;
+            // Fake Data
+            //soilTemperature = 9;
+            //soilHumidity = 43.2;
 
             date = DateTime.Now;
 
